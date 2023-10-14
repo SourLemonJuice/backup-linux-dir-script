@@ -1,14 +1,14 @@
 #!/bin/bash
 
-# 只能使用相对路径
-BackupFolder=/home/lemon/Documents/file/文件/软件工程/备份linux系统脚本/temp/back
-RootPath=/home/lemon/Documents/file/文件/软件工程/备份linux系统脚本/temp/test
+# 读取配置文件
+source path.conf
+
 # TODO 相对路径改绝对路径
 
 # 检测权限
 if [ ! $(id -u) -eq 0 ]
 then
-    echo "需要root权限"
+    echo "需要root权限执行"
     exit 4
 fi
 
@@ -22,7 +22,7 @@ fi
 Options=$(getopt -o hbr -l help -- "$@")
 if [ ! $? -eq 0 ]
 then
-    echo "参数错误"
+    echo "参数格式错误"
     exit 1
 fi
 # 格式化getopt的输出
@@ -59,7 +59,7 @@ do
             break
         ;;
         ?)
-            echo "未知参数"
+            echo "未知参数 $1"
             exit 2
         ;;
     esac
