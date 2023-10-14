@@ -3,7 +3,9 @@
 # 读取配置文件
 source path.conf
 
-# TODO 相对路径改绝对路径
+# 相对路径改绝对路径
+BackupFolder=$(cd $BackupFolder && pwd)
+RootPath=$(cd $RootPath && pwd)
 
 # 检测权限
 if [ ! $(id -u) -eq 0 ]
