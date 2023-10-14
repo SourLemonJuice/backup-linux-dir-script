@@ -34,9 +34,13 @@ while true
 do
     case $1 in
         -b)
+            # 等待用户最终确认
             read -p "即将备份 $RootPath [按回车确认]"
+            # 这里cd到要工作的目录是因为不这么做生成的tar会先有一个工作目录名称的文件夹再是工作目录里的内容
+            # 我不知道怎么让他不这样也不想再解压上下工夫，这样方便些
             {
             cd $RootPath
+            # exclude参数是要排除的路径，把系统的临时信息放进去没什么用
             tar -zcvf $BackupFolder/$(date +%Y-%m-%d_%H-%M)_backup.tar.gz --exclude=/sys --exclude=/proc --exclude=/boot --exclude=/dev --exclude=/mnt .
             }
         ;;
