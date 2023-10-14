@@ -32,7 +32,7 @@ while true
 do
     case $1 in
         -b)
-            # TODO 等待用户确认
+            read -p "即将备份 $RootPath [按回车确认]"
             {
             cd $RootPath
             tar -zcvf $BackupFolder/$(date +%Y-%m-%d_%H-%M)_backup.tar.gz --exclude=/sys --exclude=/proc --exclude=/boot --exclude=/dev --exclude=/mnt .
