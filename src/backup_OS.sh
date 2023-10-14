@@ -19,7 +19,7 @@ then
 fi
 
 # 获取参数
-Options=$(getopt -o hcx -l help -- "$@")
+Options=$(getopt -o hbr -l help -- "$@")
 if [ ! $? -eq 0 ]
 then
     echo "参数错误"
@@ -31,14 +31,14 @@ eval set -- "$Options"
 while true
 do
     case $1 in
-        -c)
-            # 等待用户确认
+        -b)
+            # TODO 等待用户确认
             {
             cd $RootPath
             tar -zcvf $BackupFolder/$(date +%Y-%m-%d_%H-%M)_backup.tar.gz --exclude=/sys --exclude=/proc --exclude=/boot --exclude=/dev --exclude=/mnt .
             }
         ;;
-        -x)
+        -r)
             # 列出所有可用的备份
             ls -tr $BackupFolder
             # 输入要使用的备份
