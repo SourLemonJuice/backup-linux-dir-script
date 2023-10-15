@@ -1,2 +1,3 @@
 BackupFolder=../temp/back
 RootPath=../temp/test
+NeedRoot=1

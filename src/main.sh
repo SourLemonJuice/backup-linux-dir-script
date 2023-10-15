@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # 读取配置文件
-source path.conf
+source config
 
 # 相对路径改绝对路径
 BackupFolder=$(cd $BackupFolder && pwd)
 RootPath=$(cd $RootPath && pwd)
 
 # 检测权限
-if [  $(id -u) -eq 0 ]
+if [[ $NeedRoot -eq 1 && ! $(id -u) -eq 0 ]]
 then
     echo "需要root权限执行"
     exit 1
