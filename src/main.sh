@@ -63,7 +63,8 @@ do
             read -p "选择要从哪个文件恢复:" -a RestoreFolder
             if [ ! -d $BackupFolder/$RestoreFolder ]
             then
-                echo "没有路径" && exit 13
+                echo "没有路径"
+                exit 13
             fi
 
             # 列出所有可用的备份
@@ -77,7 +78,8 @@ do
                 # 如果没有文件则报错
                 if [ ! -f $BackupFolder/$RestoreFolder/$i ]
                 then
-                    echo "没有路径" && exit 13
+                    echo "没有路径"
+                    exit 13
                 fi
                 # 解压文件
                 tar -zxvf $BackupFolder/$RestoreFolder/$i -C $RootPath
