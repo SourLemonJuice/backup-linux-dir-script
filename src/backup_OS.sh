@@ -41,7 +41,7 @@ do
             {
             cd $RootPath
             # exclude参数是要排除的路径，把系统的临时信息放进去没什么用
-            tar -zcvf $BackupFolder/$(date +%Y-%m-%d_%H-%M)_backup.tar.gz --exclude=/sys --exclude=/proc --exclude=/boot --exclude=/dev --exclude=/mnt .
+            tar -zcvf $BackupFolder/$(date +%Y-%m-%d_%H-%M)_backup.tar.gz --exclude=lost+found --exclude=/sys --exclude=/proc --exclude=/boot --exclude=/dev --exclude=/mnt .
             }
         ;;
         -r)
