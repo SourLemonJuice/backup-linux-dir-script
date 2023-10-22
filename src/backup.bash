@@ -13,10 +13,10 @@ full_backup () {
 
     # exclude参数是要排除的路径，把系统的临时信息放进去没什么用，这里用变量存储会有问题所以两边都写了一遍
     # 此处路径是相对于根路径的
-    tar -g $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot -zcvf $BackupFolder/$(cat $BackupFolder/.now_back)/$(date +%Y-%m-%d_%H-%M)_all_backup.tar.gz --exclude=./lost+found --exclude=./sys --exclude=./proc --exclude=./dev --exclude=./mnt --exclude=./media .
+    tar -g $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot -zcvf $BackupFolder/$(cat $BackupFolder/.now_back)/$(date +%Y-%m-%d_%H-%M)_all_backup.tar.gz --overwrite --exclude=./lost+found --exclude=./sys --exclude=./proc --exclude=./dev --exclude=./mnt --exclude=./media .
 }
 
 add_backup(){
     cd $RootPath
-    tar -g $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot -zcvf $BackupFolder/$(cat $BackupFolder/.now_back)/$(date +%Y-%m-%d_%H-%M-%S)_backup.tar.gz --exclude=./lost+found --exclude=./sys --exclude=./proc --exclude=./dev --exclude=./mnt --exclude=./media .
+    tar -g $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot -zcvf $BackupFolder/$(cat $BackupFolder/.now_back)/$(date +%Y-%m-%d_%H-%M-%S)_backup.tar.gz --overwrite --exclude=./lost+found --exclude=./sys --exclude=./proc --exclude=./dev --exclude=./mnt --exclude=./media .
 }
