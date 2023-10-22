@@ -1,4 +1,4 @@
 #!/bin/bash
-BackupFolder=/backup
+BackupFolder=/mnt/backup
 RootPath=/
 NeedRoot=1
