@@ -1,9 +1,12 @@
 #!/bin/bash
 
+# 获取脚本真实路径
+ShellFilePath=$( cd $(dirname $0) && pwd)
+
 # 读取配置文件
-source ./config.bash
+source $ShellFilePath/config.bash
 # 读取备份逻辑函数
-source ./backup.bash
+source $ShellFilePath/backup.sh
 
 # 检测权限
 if [[ $NeedRoot -eq 1 && ! $(id -u) -eq 0 ]]
@@ -12,15 +15,15 @@ then
     exit 1
 fi
 
+# 相对路径改绝对路径
+BackupFolder=$(cd $ShellFilePath && cd $BackupFolder && pwd)
+RootPath=$(cd $ShellFilePath && cd $RootPath && pwd)
+
 # 创建备份文件的文件夹
 if [ ! -d $BackupFolder ]
 then
     mkdir -v $BackupFolder
 fi
-
-# 相对路径改绝对路径
-BackupFolder=$(cd $BackupFolder && pwd)
-RootPath=$(cd $RootPath && pwd)
 
 # 获取参数
 Options=$(getopt -o hbrB -l help -- "$@")
@@ -38,18 +41,19 @@ do
     case $1 in
         -b)
             # 等待用户最终确认
-            read -p "备份 $RootPath [按回车确认]"
-            # 第一次用full这个脚本创建的tar文件名字里有"all"所以才这么写的，不要改（当然最终都能实现啦）
+            read -p "备份 $RootPath 到 $BackupFolder [按回车确认]"
+            # 第一次用add模式创建的tar文件名字里有"all"所以才这么写的，不要改（当然最终都能实现啦）
             if [ -f $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot ]
             then
-                add_backup
+                backup add
             else
-                full_backup
+                backup all
             fi
         ;;
         -B)
-            read -p "完整备份 $RootPath [按回车确认]"
-            full_backup
+            # 等待用户最终确认
+            read -p "重新完整备份 $RootPath 到 $BackupFolder [按回车确认]"
+            backup all
         ;;
         -r)
             # 列出所有可用的备份组
@@ -58,7 +62,7 @@ do
             if [ ! -d $BackupFolder/$RestoreFolder ]
             then
                 echo "没有路径"
-                exit 13
+                exit 11
             fi
 
             # 列出所有可用的备份
@@ -73,21 +77,21 @@ do
                 if [ ! -f $BackupFolder/$RestoreFolder/$i ]
                 then
                     echo "没有路径"
-                    exit 13
+                    exit 11
                 fi
                 # 解压文件
                 tar -zxvf $BackupFolder/$RestoreFolder/$i -C $RootPath
             done
         ;;
         -h | --help)
-            cat ./help_info
+            cat $ShellFilePath/help_info
         ;;
         --)
             break
         ;;
         ?)
             echo "未知参数 $1"
-            exit 12
+            exit 11
         ;;
     esac
 
