@@ -4,7 +4,7 @@
 ShellFilePath=$( cd $(dirname $0) && pwd)
 
 # 读取配置文件
-source $ShellFilePath/config.bash
+source $ShellFilePath/config
 # 读取备份逻辑函数
 source $ShellFilePath/backup.sh
 
