@@ -11,9 +11,9 @@ init(){
     # 相对路径改绝对路径
     {
         cd $ShellFilePath || exit 1
-        BackupFolder=$(realpath $BackupFolder)
-        RootPath=$(realpath $RootPath)
-        LogPath=$(realpath $LogPath)
+        BackupFolder=$(realpath -m $BackupFolder)
+        RootPath=$(realpath -m $RootPath)
+        LogPath=$(realpath -m $LogPath)
     }
 
     # 创建备份文件的文件夹
