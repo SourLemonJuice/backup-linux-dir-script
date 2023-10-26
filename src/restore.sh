@@ -65,12 +65,12 @@ restore(){
     separator
     println_array_items "${RestoreFileList[@]}"
     separator
-    read -p "即将从上到下还原这些文件 [按回车确定]" -s
+    read -p "即将从上到下还原这些文件 [按回车确定]"
 
     # 循环释放每个输入的文件
     for i in "${RestoreFileList[@]}";
     do
         # 释放文件
-        tar -zxvf $BackupFolder/$RestoreFolder/$i -C $RootPath
+        tar -zxvf $RestoreFolder/$i -C $RootPath
     done
 }
