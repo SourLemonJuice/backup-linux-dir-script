@@ -71,7 +71,7 @@ do
         ;;
         ?)
             echo "未知参数 $1"
-            exit 11
+            exit 1
         ;;
     esac
 
