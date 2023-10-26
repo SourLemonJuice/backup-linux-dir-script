@@ -13,8 +13,7 @@ backup(){
         FileAppendName=""
     ;;
     *)
-        echo "backup函数 无效参数"
-        exit 1
+        echo "backup函数 无效参数" && exit 1
     ;;
     esac
 
@@ -23,9 +22,13 @@ backup(){
     excludes="--exclude=lost+found --exclude=$BackupFolder"
     # 这里cd到要工作的目录是因为不这么做生成的tar会先有一个工作目录名称的文件夹再是工作目录里的内容
     # 懒得找别的办法了（-:
-    cd $RootPath || exit
+    cd $RootPath || exit 1
+    echo "开始打包 $RootPath"
     tar -g $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot\
     -zcvf $BackupFolder/$(cat $BackupFolder/.now_back)/$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar.gz\
-    --overwrite --one-file-system ${excludes}\
-    .
+    --overwrite\
+    --one-file-system\
+    ${excludes}\
+    .\
+    >> $LogPath/LogName
 }

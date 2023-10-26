@@ -45,8 +45,7 @@ restore(){
     # 要恢复到哪个时间点
     read -p "选择要恢复到那个备份的状态:" -a RestoreFileEnd
     # 如果没有文件则报错
-    if [ ! -f $RestoreFolder/$i ]
-    then
+    if [[ ! -f $RestoreFolder/$i ]] || [[ -z $RestoreFileEnd ]]; then
         echo "没有文件"
         exit 1
     fi
@@ -70,7 +69,9 @@ restore(){
     # 循环释放每个输入的文件
     for i in "${RestoreFileList[@]}";
     do
+        echo "开始释放文件 $i"
         # 释放文件
-        tar -zxvf $RestoreFolder/$i -C $RootPath
+        tar -zxvf $RestoreFolder/$i -C $RootPath\
+        >> $LogPath/$LogName
     done
 }
