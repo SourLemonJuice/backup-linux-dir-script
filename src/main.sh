@@ -13,7 +13,7 @@ source $ShellFilePath/restore.sh
 source $ShellFilePath/init.sh
 
 # 获取参数
-Options=$(getopt -o hbrB -l help,backup,restore,backup-full -- "$@")
+Options=$(getopt -o hbrf -l help,backup,restore,backup-full -- "$@")
 if [ ! $? -eq 0 ]
 then
     echo "参数格式错误"
