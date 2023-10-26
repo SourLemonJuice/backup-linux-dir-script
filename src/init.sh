@@ -19,7 +19,8 @@ init(){
 
     echo "日志路径 $LogPath"
     # 写入日志的第一行日期
-    echo "$(date +%s_%Y-%m-%d_%H-%M-%S) $0 "$@""> $LogPath/$LogName
+    > $LogPath/$LogName
+    logger "$(date +%s_%Y-%m-%d_%T) $0 $@"
 }
 
 # 分隔线函数

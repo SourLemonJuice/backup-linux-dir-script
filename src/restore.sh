@@ -59,7 +59,6 @@ restore(){
     do
         logger "开始释放文件 $i"
         # 释放文件
-        tar -xvf $RestoreFolder/$i -C $RootPath\
-        >> $LogPath/$LogName
+        tar -xvf $RestoreFolder/$i -C $RootPath
     done
 }
