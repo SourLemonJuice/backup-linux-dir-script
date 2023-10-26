@@ -1,15 +1,4 @@
 
-println_array_items(){
-    for i in $@; do
-        echo $i
-    done
-}
-
-# 分隔线函数
-separator(){
-    echo "=========="
-}
-
 restore(){
 
     # 列出所有可用的备份组，并写入 BackupFolderList
@@ -68,9 +57,8 @@ restore(){
     # 循环释放每个输入的文件
     for i in "${RestoreFileList[@]}";
     do
-        echo "开始释放文件 $i"
+        logger "开始释放文件 $i"
         # 释放文件
-        tar -zxvf $RestoreFolder/$i -C $RootPath\
-        >> $LogPath/$LogName
+        tar -xvf $RestoreFolder/$i -C $RootPath
     done
 }

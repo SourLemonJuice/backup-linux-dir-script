@@ -17,18 +17,34 @@ backup(){
     ;;
     esac
 
+    case $2 in 
+    -z)
+        logger "gzip压缩模式"
+        ZipMode="z"
+        ZipExtensionName=".gz"
+    ;;
+    *)
+        if [ ! $2 == '--' ]; then
+            logger "压缩模式输入错误"
+            exit 1
+        fi
+        logger "无压缩模式"
+        ZipMode=""
+        ZipExtensionName=""
+    ;;
+    esac
+
     # exclude参数是要排除的路径，把系统的临时信息放进去没什么用，这里用变量存储会有问题所以两边都写了一遍
     # excludes="--exclude=./lost+found --exclude=./sys --exclude=./proc --exclude=./dev --exclude=./mnt --exclude=./media"
     excludes="--exclude=./lost+found --exclude=.$BackupFolder"
     # 这里cd到要工作的目录是因为不这么做生成的tar会先有一个工作目录名称的文件夹再是工作目录里的内容
     # 懒得找别的办法了（-:
     cd $RootPath || exit 1
-    echo "开始打包 $RootPath"
-    tar -g $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot\
-    -zcvf $BackupFolder/$(cat $BackupFolder/.now_back)/$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar.gz\
+    logger "开始打包 $RootPath"
+    tar -g $BackupFolder/$(cat $BackupFolder/.now_back)/.snapshot\
+    -"${ZipMode}"cvf $BackupFolder/$(cat $BackupFolder/.now_back)/$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar${ZipExtensionName}\
     --overwrite\
     --one-file-system\
     ${excludes}\
-    .\
-    >> $LogPath/$LogName
+    .
 }
