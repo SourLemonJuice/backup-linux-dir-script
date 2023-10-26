@@ -18,11 +18,11 @@ init(){
 
     # 创建备份文件的文件夹
     if [[ ! -d $BackupFolder ]]; then
-        mkdir -v $BackupFolder
+        mkdir -vp $BackupFolder
     fi
     # 创建log文件夹
     if [[ ! -d $LogPath ]]; then
-        mkdir -v $LogPath
+        mkdir -vp $LogPath
     fi
 
     # 写入日志的第一行日期
