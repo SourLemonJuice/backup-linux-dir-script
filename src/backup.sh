@@ -41,7 +41,7 @@ backup(){
     # 懒得找别的办法了（-:
     cd $RootPath || exit 1
     logger "开始打包 $RootPath"
-    tar -g $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot\
+    tar -g $BackupFolder/$(cat $BackupFolder/.now_back)/.snapshot\
     -"${ZipMode}"cvf $BackupFolder/$(cat $BackupFolder/.now_back)/$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar${ZipExtensionName}\
     --overwrite\
     --one-file-system\
