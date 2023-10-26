@@ -42,11 +42,9 @@ do
             # 第一次用add模式创建的tar文件名字里有"all"所以才这么写的，不要改（当然最终都能实现啦）
             if [ -f $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot ]
             then
-                shift
-                backup add $1
+                shift && backup add $1
             else
-                shift
-                backup all $1
+                shift && backup all $1
             fi
             break
         ;;
@@ -55,8 +53,7 @@ do
             # 完整备份模式
             # 等待用户最终确认
             read -p "重新完整备份 $RootPath 到 $BackupFolder [按回车确认]"
-            shift
-            backup all $1
+            shift && backup all $1
             break
         ;;
         -R | --restore)
