@@ -19,7 +19,7 @@ backup(){
 
     # exclude参数是要排除的路径，把系统的临时信息放进去没什么用，这里用变量存储会有问题所以两边都写了一遍
     # excludes="--exclude=./lost+found --exclude=./sys --exclude=./proc --exclude=./dev --exclude=./mnt --exclude=./media"
-    excludes="--exclude=lost+found --exclude=$BackupFolder"
+    excludes="--exclude=./lost+found --exclude=.$BackupFolder"
     # 这里cd到要工作的目录是因为不这么做生成的tar会先有一个工作目录名称的文件夹再是工作目录里的内容
     # 懒得找别的办法了（-:
     cd $RootPath || exit 1
@@ -30,5 +30,5 @@ backup(){
     --one-file-system\
     ${excludes}\
     .\
-    >> $LogPath/LogName
+    >> $LogPath/$LogName
 }
