@@ -8,14 +8,6 @@ init(){
         exit 1
     fi
 
-    # 相对路径改绝对路径
-    {
-        cd $ShellFilePath || exit 1
-        BackupFolder=$(realpath -m $BackupFolder)
-        RootPath=$(realpath -m $RootPath)
-        LogPath=$(realpath -m $LogPath)
-    }
-
     # 创建备份文件的文件夹
     if [[ ! -d $BackupFolder ]]; then
         mkdir -vp $BackupFolder
@@ -25,6 +17,24 @@ init(){
         mkdir -vp $LogPath
     fi
 
+    echo "日志路径 $LogPath"
     # 写入日志的第一行日期
     echo "$(date +%s_%Y-%m-%d_%H-%M-%S) $0 "$@""> $LogPath/$LogName
+}
+
+# 分隔线函数
+separator(){
+    ShellWidth=$(stty size|awk '{print $2}')
+    yes "=" |sed $ShellWidth'q' |tr -d "\n" && echo 
+}
+
+println_array_items(){
+    for i in $@; do
+        echo $i
+    done
+}
+
+logger(){
+    echo $@
+    echo "$(date +%T) $@" >> $LogPath/$LogName
 }

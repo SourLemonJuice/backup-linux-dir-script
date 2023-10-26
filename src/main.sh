@@ -5,12 +5,20 @@ ShellFilePath=$( cd $(dirname $0) && pwd)
 
 # 读取配置文件
 source $ShellFilePath/config
+# 读取初始化函数
+source $ShellFilePath/init.sh
 # 读取备份逻辑函数
 source $ShellFilePath/backup.sh
 # 读取恢复函数
 source $ShellFilePath/restore.sh
-# 读取初始化函数
-source $ShellFilePath/init.sh
+
+# 相对路径改绝对路径
+{
+    cd $ShellFilePath || exit 1
+    BackupFolder=$(realpath -m $BackupFolder)
+    RootPath=$(realpath -m $RootPath)
+    LogPath=$(realpath -m $LogPath)
+}
 
 # 获取参数
 Options=$(getopt -o hbrf -l help,backup,restore,backup-full -- "$@")
@@ -23,7 +31,7 @@ fi
 eval set -- "$Options"
 
 # 主程序
-while true # 这个循环只能检测到一次可以执行的项，在每个项后面都应该写上 break 或 exit
+while true # 这个循环只应该检测到一次可以执行的项，在每个项后面都应该写上 break 或 exit
 do
     case $1 in
         -b | --backup)
@@ -59,7 +67,7 @@ do
             exit
         ;;
         --)
-            echo "没有执行任何操作"
+            echo "没有执行任何参数"
             break
         ;;
         ?)
@@ -70,5 +78,3 @@ do
 
     shift
 done
-
-echo "日志路径 $LogPath/$LogName"
