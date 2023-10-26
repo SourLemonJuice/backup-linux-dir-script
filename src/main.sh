@@ -21,7 +21,7 @@ source $ShellFilePath/restore.sh
 }
 
 # 获取参数
-Options=$(getopt -o hbrf -l help,backup,restore,backup-full -- "$@")
+Options=$(getopt -o hBFRz -l help,backup,restore,backup-full -- "$@")
 if [ ! $? -eq 0 ]
 then
     echo "参数格式错误"
@@ -34,7 +34,7 @@ eval set -- "$Options"
 while true # 这个循环只应该检测到一次可以执行的项，在每个项后面都应该写上 break 或 exit
 do
     case $1 in
-        -b | --backup)
+        -B | --backup)
             init $@
             # 普通备份模式
             # 等待用户最终确认
@@ -42,21 +42,24 @@ do
             # 第一次用add模式创建的tar文件名字里有"all"所以才这么写的，不要改（当然最终都能实现啦）
             if [ -f $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot ]
             then
-                backup add
+                shift
+                backup add $1
             else
-                backup all
+                shift
+                backup all $1
             fi
             break
         ;;
-        -f | --backup-full)
+        -F | --backup-full)
             init $@
             # 完整备份模式
             # 等待用户最终确认
             read -p "重新完整备份 $RootPath 到 $BackupFolder [按回车确认]"
-            backup all
+            shift
+            backup all $1
             break
         ;;
-        -r | --restore)
+        -R | --restore)
             init $@
             # 调用备份函数
             restore
@@ -68,7 +71,7 @@ do
         ;;
         --)
             echo "没有执行任何参数"
-            break
+            exit 1
         ;;
         ?)
             echo "未知参数 $1"
