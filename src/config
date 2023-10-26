@@ -1,4 +1,3 @@
-#!/bin/bash
 BackupFolder=../temp/backup
 RootPath=../temp/test
 LogPath=../temp/backup/.log

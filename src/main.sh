@@ -9,49 +9,25 @@ source $ShellFilePath/config
 source $ShellFilePath/backup.sh
 # 读取恢复函数
 source $ShellFilePath/restore.sh
-
-# 检测权限
-if [[ $NeedRoot -eq 1 && ! $(id -u) -eq 0 ]]
-then
-    echo "需要root权限执行"
-    exit 1
-fi
-
-# 相对路径改绝对路径
-{
-    cd $ShellFilePath || exit 1
-    BackupFolder=$(realpath $BackupFolder)
-    RootPath=$(realpath $RootPath)
-    LogPath=$(realpath $LogPath)
-}
-
-# 创建备份文件的文件夹
-if [[ ! -d $BackupFolder ]]; then
-    mkdir -v $BackupFolder
-fi
-# 创建log文件夹
-if [[ ! -d $LogPath ]]; then
-    mkdir -v $LogPath
-fi
-
-# 写入日志的第一行日期
-echo "$(date +%s_%Y-%m-%d_%H-%M-%S) $0 "$@""> $LogPath/$LogName
+# 读取初始化函数
+source $ShellFilePath/init.sh
 
 # 获取参数
-Options=$(getopt -o hbrB -l help -- "$@")
+Options=$(getopt -o hbrB -l help,backup,restore,backup-full -- "$@")
 if [ ! $? -eq 0 ]
 then
     echo "参数格式错误"
-    exit 11
+    exit 1
 fi
 # 格式化getopt的输出
 eval set -- "$Options"
 
 # 主程序
-while true
+while true # 这个循环只能检测到一次可以执行的项，在每个项后面都应该写上 break 或 exit
 do
     case $1 in
-        -b)
+        -b | --backup)
+            init $@
             # 普通备份模式
             # 等待用户最终确认
             read -p "备份 $RootPath 到 $BackupFolder [按回车确认]"
@@ -62,21 +38,28 @@ do
             else
                 backup all
             fi
+            break
         ;;
-        -B)
+        -f | --backup-full)
+            init $@
             # 完整备份模式
             # 等待用户最终确认
             read -p "重新完整备份 $RootPath 到 $BackupFolder [按回车确认]"
             backup all
+            break
         ;;
-        -r)
+        -r | --restore)
+            init $@
             # 调用备份函数
             restore
+            break
         ;;
         -h | --help)
             cat $ShellFilePath/help_info
+            exit
         ;;
         --)
+            echo "没有执行任何操作"
             break
         ;;
         ?)

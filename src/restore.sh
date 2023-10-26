@@ -1,4 +1,3 @@
-#!/bin/bash
 
 println_array_items(){
     for i in $@; do
