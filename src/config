@@ -1,6 +1,5 @@
-#!/bin/bash
 BackupFolder=/mnt/backup
 RootPath=/
-LogPath="${BackupFolder}"/.log
+LogPath=/mnt/backup/.log
 LogName=backup.log
 NeedRoot=1
