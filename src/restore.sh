@@ -59,6 +59,7 @@ restore(){
     do
         logger "开始释放文件 $i"
         # 释放文件
+        # TODO 在命令中覆盖rootpath
         tar -xvf $RestoreFolder/$i -C $RootPath
     done
 }

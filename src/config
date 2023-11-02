@@ -1,5 +1,5 @@
-BackupFolder=/mnt/backup
+BackupFolder=/usr/sys-backup
 RootPath=/
-LogPath=/mnt/backup/.log
+LogPath=/usr/backup/.log
 LogName=backup.log
 NeedRoot=1
