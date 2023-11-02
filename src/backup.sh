@@ -36,11 +36,12 @@ backup(){
     # 这里cd到要工作的目录是因为不这么做生成的tar会先有一个工作目录名称的文件夹再是工作目录里的内容
     # 懒得找别的办法了（-:
     cd $RootPath || exit 1
-    logger "开始打包 $RootPath"
+    logger "开始打包 $RootPath 到 $BackupFolder/$(cat $BackupFolder/.now_back)"
     tar -g $BackupFolder/$(cat $BackupFolder/.now_back)/.snapshot\
     -"${ZipMode}"cvf $BackupFolder/$(cat $BackupFolder/.now_back)/$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar${ZipExtensionName}\
     --overwrite\
     --one-file-system\
     ${excludes}\
     .
+    logger "打包结束"
 }
