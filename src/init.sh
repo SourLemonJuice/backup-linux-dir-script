@@ -17,7 +17,6 @@ init(){
         mkdir -vp $LogPath
     fi
 
-    echo "日志路径 $LogPath"
     # 写入日志的第一行日期
     > $LogPath/$LogName
     logger "$(date +%s_%Y-%m-%d_%T) $0 $@"

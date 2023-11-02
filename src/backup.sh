@@ -2,10 +2,10 @@
 backup(){
 
     case $1 in 
-    all)
+    full)
         FileAppendName="first_"
         # 刷新文件所在的组的编号文件
-        echo $(date +%s) > $BackupFolder/.now_back
+        echo $(date +%s_%Y-%m-%d_%H-%M-%S) > $BackupFolder/.now_back
         # 完整备份都是每组的第一次备份所以要创建组的文件夹
         mkdir -v $BackupFolder/$(cat $BackupFolder/.now_back)
     ;;
@@ -24,10 +24,6 @@ backup(){
         ZipExtensionName=".gz"
     ;;
     *)
-        if [ ! $2 == '--' ]; then
-            logger "压缩模式输入错误"
-            exit 1
-        fi
         logger "无压缩模式"
         ZipMode=""
         ZipExtensionName=""

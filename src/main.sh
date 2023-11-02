@@ -21,7 +21,7 @@ source $ShellFilePath/restore.sh
 }
 
 # 获取参数
-Options=$(getopt -o hBFRz -l help,backup,restore,backup-full -- "$@")
+Options=$(getopt -o hBRz -l help,backup,restore,backup-full -- "$@")
 if [ ! $? -eq 0 ]
 then
     echo "参数格式错误"
@@ -40,11 +40,14 @@ do
             # 等待用户最终确认
             read -p "备份 $RootPath 到 $BackupFolder [按回车确认]"
             # 第一次用add模式创建的tar文件名字里有"all"所以才这么写的，不要改（当然最终都能实现啦）
-            if [ -f $BackupFolder/$(cat $BackupFolder/.now_back)/snapshot ]
+            # 第一个判断检测当前是否有已经存在的备份组，第二个判断读取配置文件来决定是否强制完全备份
+            if [[ -f $BackupFolder/$(cat $BackupFolder/.now_back)/.snapshot ]] && [[ $Tar_Default_Full_Backup -eq 0 ]]
             then
-                shift && backup add $1
+                logger "tar增量模式备份"
+                backup add $2
             else
-                shift && backup all $1
+                logger "tar完全模式备份"
+                backup full $2
             fi
             break
         ;;
@@ -53,7 +56,7 @@ do
             # 完整备份模式
             # 等待用户最终确认
             read -p "重新完整备份 $RootPath 到 $BackupFolder [按回车确认]"
-            shift && backup all $1
+            backup full $2
             break
         ;;
         -R | --restore)
@@ -78,3 +81,4 @@ do
 
     shift
 done
+
