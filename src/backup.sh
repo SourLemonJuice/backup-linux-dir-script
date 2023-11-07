@@ -56,7 +56,7 @@ backup(){
     echo tar压缩参数: $ZipMode
     separator
     {
-        read -p "[按回车确认]" -a Final_Tip
+        read -n 1 -p "[输入任何内容退出]" -a Final_Tip
         if [[ ! -z $Final_Tip ]];then
             logger 'both' "用户已取消操作"
             rm -ri $BackupFolder/$Now_Backup
