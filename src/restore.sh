@@ -30,6 +30,7 @@ restore(){
 
     # 列出所有可用的备份
     println_array_items ${RestoreFolderFileList[@]}
+    separator '-'
     # 要恢复到哪个时间点
     read -p "选择要恢复到那个备份的状态:" -a RestoreFileEnd
     # 如果没有文件则报错
