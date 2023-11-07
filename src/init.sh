@@ -7,16 +7,15 @@ init(){
         exit 1
     fi
 
-    # 在改动文件前确认
-    read -p "开始运行脚本(后面还有确认项) [回车]"
-
-    # 创建备份文件的文件夹
-    if [[ ! -d $BackupFolder ]]; then
-        logger 'file' "$(mkdir -vp $BackupFolder || exit 1)"
-    fi
-    # 创建log文件夹
-    if [[ ! -d $RunningLogPath ]]; then
-        logger 'file' "$(mkdir -vp $RunningLogPath || exit 1)"
+    if [[ $Disable_init_Path_Detection -eq 0 ]]; then
+        # 创建备份文件的文件夹
+        if [[ ! -d $BackupFolder ]]; then
+            logger 'file' "$(mkdir -vp $BackupFolder || exit 1)"
+        fi
+        # 创建log文件夹
+        if [[ ! -d $RunningLogPath ]]; then
+            logger 'file' "$(mkdir -vp $RunningLogPath || exit 1)"
+        fi
     fi
 
     # 设置备份组的编号

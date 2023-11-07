@@ -1,4 +1,5 @@
 NeedRoot=0
+Disable_init_Path_Detection=0
 Tar_Default_Full_Backup=0
 
 # path
