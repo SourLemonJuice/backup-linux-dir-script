@@ -1,12 +1,14 @@
 
 init(){
-    read -p "开始运行脚本(后面还有确认项) [回车]"
     # 检测权限
-    if [[ $NeedRoot -eq 1 && ! $(id -u) -eq 0 ]]
+    if [[ $NeedRoot -eq 1 ]] && [[ ! $(id -u) -eq 0 ]]
     then
         echo "需要root权限执行"
         exit 1
     fi
+
+    # 在改动文件前确认
+    read -p "开始运行脚本(后面还有确认项) [回车]"
 
     # 创建备份文件的文件夹
     if [[ ! -d $BackupFolder ]]; then
