@@ -8,7 +8,7 @@ backup(){
 
         # 刷新文件所在的组的编号文件
         Now_Backup=$(date +%s_%Y-%m-%d_%H-%M-%S)
-        logger "新编号为 $Now_Backup"
+        logger 'both' "设置新编号为 $Now_Backup"
 
         # 完整备份都是每组的第一次备份所以要创建组的文件夹
         logger 'file' "$(mkdir -v $BackupFolder/$Now_Backup || exit 1)"
