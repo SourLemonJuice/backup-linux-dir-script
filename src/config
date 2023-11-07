@@ -6,5 +6,4 @@ BackupFolder=../temp/backup
 RootPath=../temp/test
 
 # log
-LogPath=../temp/backup/.log
-LogName=backup.log
+RunningLogPath=../temp/backup/.log

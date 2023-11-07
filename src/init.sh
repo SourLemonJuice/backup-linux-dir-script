@@ -15,12 +15,21 @@ init(){
         mkdir -vp $BackupFolder
     fi
     # 创建log文件夹
-    if [[ ! -d $LogPath ]]; then
-        mkdir -vp $LogPath
+    if [[ ! -d $RunningLogPath ]]; then
+        mkdir -vp $RunningLogPath
     fi
 
+    # 设置备份组的编号
+    Now_Backup_FilePath="$BackupFolder/.now_backup"
+    if [[ -f $BackupFolder/.now_backup ]]; then
+        Now_Backup=$(sed -n "1,1p" $BackupFolder/.now_backup)
+    else
+        Now_Backup=''
+    fi
+
+    LogName=running.log
     # 写入日志的第一行日期
-    > $LogPath/$LogName
+    > $RunningLogPath/$LogName
     logger "$(date +%s_%Y-%m-%d_%T) $0 $@"
 }
 
@@ -30,13 +39,15 @@ separator(){
     yes "=" |sed $ShellWidth'q' |tr -d "\n" && echo 
 }
 
+# 循环输出数组内的值
 println_array_items(){
     for i in $@; do
         echo $i
     done
 }
 
+# 写日志咯
 logger(){
     echo $@
-    echo "$(date +%T) $@" >> $LogPath/$LogName
+    echo "$(date +%T) $@" >> $RunningLogPath/$LogName
 }

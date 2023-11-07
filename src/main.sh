@@ -18,7 +18,7 @@ source $ShellFilePath/restore.sh
     cd $ShellFilePath || exit 1
     BackupFolder=$(realpath -m $BackupFolder)
     RootPath=$(realpath -m $RootPath)
-    LogPath=$(realpath -m $LogPath)
+    RunningLogPath=$(realpath -m $RunningLogPath)
 }
 
 # 获取参数
@@ -38,11 +38,8 @@ do
         -B | --backup)
             init $@
             # 普通备份模式
-            # 等待用户最终确认
-            read -p "备份 $RootPath 到 $BackupFolder [按回车确认]"
-            # 第一次用add模式创建的tar文件名字里有"all"所以才这么写的，不要改（当然最终都能实现啦）
             # 第一个判断检测当前是否有已经存在的备份组，第二个判断读取配置文件来决定是否强制完全备份
-            if [[ -f $BackupFolder/$(cat $BackupFolder/.now_back)/.snapshot ]] && [[ $Tar_Default_Full_Backup -eq 0 ]]
+            if [[ -f $BackupFolder/$Now_Backup/.snapshot ]] && [[ $Tar_Default_Full_Backup -eq 0 ]]
             then
                 logger "tar增量模式备份"
                 backup add $2
@@ -55,8 +52,6 @@ do
         -F | --backup-full)
             init $@
             # 完整备份模式
-            # 等待用户最终确认
-            read -p "重新完整备份 $RootPath 到 $BackupFolder [按回车确认]"
             backup full $2
             break
         ;;
