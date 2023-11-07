@@ -82,7 +82,7 @@ backup(){
 
     # 写入当前备份的组，如果是增量内容将不变，如果是完全备份将写入新的编号，都是为了最终确认呀啊啊啊
     echo -n $Now_Backup > $Now_Backup_FilePath
-    logger 'file' "更新储存库中的.Now_Backup文件为 $Now_Backup"
+    logger 'file' "更新储存库中的.now_backup文件为 $Now_Backup"
 
     # 写入进打包历史
     echo $(date +%s_%Y-%m-%d_%H-%M-%S)_backup.tar${ZipExtensionName} >> $BackupFolder/$Now_Backup/.log
