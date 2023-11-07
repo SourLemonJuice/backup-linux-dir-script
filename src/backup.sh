@@ -19,8 +19,8 @@ backup(){
         mkdir -v $BackupFolder/$Now_Backup
 
         # 写入当前版本脚本的重要信息用来向后兼容
-        echo $(cat "$ShellFilePath/version") > $BackupFolder/$Now_Backup/.template
-        echo '$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar${ZipExtensionName}' >> $BackupFolder/$Now_Backup/.template
+        echo script version:$(cat "$ShellFilePath/version") > $BackupFolder/$Now_Backup/.template
+        echo file name template:'$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar${ZipExtensionName}' >> $BackupFolder/$Now_Backup/.template
     ;;
     add)
         # 等待用户最终确认
