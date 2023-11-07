@@ -6,11 +6,8 @@ backup(){
         # 等待用户最终确认
         read -p "tar完整备份模式 [按回车确认]"
 
-        # FileAppendName="first_"
-
         # 刷新文件所在的组的编号文件
-        echo -n $(date +%s_%Y-%m-%d_%H-%M-%S) > $Now_Backup_FilePath
-        Now_Backup=$(sed -n "1,1p" $BackupFolder/.now_backup)
+        Now_Backup=$(date +%s_%Y-%m-%d_%H-%M-%S)
         logger "新编号为 $Now_Backup"
 
         # 完整备份都是每组的第一次备份所以要创建组的文件夹
@@ -18,13 +15,11 @@ backup(){
 
         # 写入当前版本脚本的重要信息用来向后兼容
         echo script version:$(cat "$ShellFilePath/version") > $BackupFolder/$Now_Backup/.template
-        echo file name template:'$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar${ZipExtensionName}' >> $BackupFolder/$Now_Backup/.template
+        echo file name template:'$(date +%s_%Y-%m-%d_%H-%M-%S)_backup.tar${ZipExtensionName}' >> $BackupFolder/$Now_Backup/.template
     ;;
     add)
         # 等待用户最终确认
         read -p "tar增量备份模式 [按回车确认]"
-
-        # FileAppendName=""
     ;;
     *)
         echo "backup函数 无效参数" && exit 1
@@ -53,6 +48,7 @@ backup(){
     echo 源: $RootPath
     echo 目标文件夹: $BackupFolder/$Now_Backup
     echo 排除参数: $excludes
+    echo 接收到的备份模式: $1
     echo tar压缩参数: $ZipMode
     separator
     {
@@ -70,14 +66,18 @@ backup(){
     cd $RootPath || exit 1
     logger 'file' "开始打包 $RootPath 到 $BackupFolder/$Now_Backup"
     tar -g $BackupFolder/$Now_Backup/.snapshot\
-    -"${ZipMode}"cvf $BackupFolder/$Now_Backup/$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar${ZipExtensionName}\
+    -"${ZipMode}"cvf $BackupFolder/$Now_Backup/$(date +%s_%Y-%m-%d_%H-%M-%S)_backup.tar${ZipExtensionName}\
     --overwrite\
     --one-file-system\
     ${excludes}\
     .
 
+    # 写入当前备份的组，如果是增量内容将不变，如果是完全备份将写入新的编号，都是为了最终确认呀啊啊啊
+    echo -n $Now_Backup > $Now_Backup_FilePath
+    logger 'file' "更新储存库中的.Now_Backup文件为 $Now_Backup"
+
     # 写入进打包历史
-    echo $(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar${ZipExtensionName} >> $BackupFolder/$Now_Backup/.log
+    echo $(date +%s_%Y-%m-%d_%H-%M-%S)_backup.tar${ZipExtensionName} >> $BackupFolder/$Now_Backup/.log
     # logggggg
     logger 'both' "$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar${ZipExtensionName} 打包结束"
 }

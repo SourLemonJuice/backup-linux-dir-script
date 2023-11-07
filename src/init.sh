@@ -19,9 +19,9 @@ init(){
     fi
 
     # 设置备份组的编号
-    Now_Backup_FilePath="$BackupFolder/.now_backup"
-    if [[ -f $BackupFolder/.now_backup ]]; then
-        Now_Backup=$(sed -n "1,1p" $BackupFolder/.now_backup)
+    Now_Backup_FilePath="$BackupFolder/.Now_Backup"
+    if [[ -f $BackupFolder/.Now_Backup ]]; then
+        Now_Backup=$(sed -n "1,1p" $BackupFolder/.Now_Backup)
     else
         Now_Backup=''
     fi
