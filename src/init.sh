@@ -1,5 +1,13 @@
 
 init(){
+    # 加载一些小东西
+    # 日志函数
+    source $ShellFilePath/logger.sh
+    # 输出数组内容
+    source $ShellFilePath/println_array_items.sh
+    # 打印分割线
+    source $ShellFilePath/separator.sh
+
     # 检测权限
     if [[ $NeedRoot -eq 1 ]] && [[ ! $(id -u) -eq 0 ]]
     then
@@ -30,44 +38,4 @@ init(){
     # 写入日志的第一行日期
     > $RunningLogPath/$LogName || exit 1
     logger 'file' "$(date +%s_%Y-%m-%d_%T) $0 $@"
-}
-
-# 分隔线函数
-separator(){
-    if [[ -z $1 ]] || [[ ! ${#1} -eq 1 ]]; then
-        Character='='
-    else
-        Character=$1
-    fi
-
-    ShellWidth=$(stty size|awk '{print $2}')
-    yes "$Character" |sed $ShellWidth'q' |tr -d "\n" && echo 
-}
-
-# 循环输出数组内的值
-println_array_items(){
-    for i in $@; do
-        echo $i
-    done
-}
-
-# 写日志咯
-logger(){
-    case $1 in
-    both)
-        echo $2
-        echo "[$(date +%T)] $2" >> $RunningLogPath/$LogName
-    ;;
-    term)
-        echo $2
-    ;;
-    file)
-        echo "[$(date +%T)] $2" >> $RunningLogPath/$LogName
-    ;;
-    *)
-        # 保留缺省情况
-        echo $@
-        echo "[$(date +%T)] $@" >> $RunningLogPath/$LogName
-    ;;
-    esac
 }
