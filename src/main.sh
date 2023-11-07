@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 获取脚本真实路径
-ShellFilePath=$( cd $(dirname $0) && pwd)
+ShellFilePath=$( cd $(dirname $0) || exit 1 && pwd)
 
 # 读取配置文件
 source $ShellFilePath/config
@@ -42,17 +42,17 @@ do
             if [[ -f $BackupFolder/$Now_Backup/.snapshot ]] && [[ $Tar_Default_Full_Backup -eq 0 ]]
             then
                 logger "tar增量模式备份"
-                backup add $2
+                backup 'add' $2
             else
                 logger "tar完全模式备份"
-                backup full $2
+                backup 'full' $2
             fi
             break
         ;;
         -F | --backup-full)
             init $@
             # 完整备份模式
-            backup full $2
+            backup 'full' $2
             break
         ;;
         -R | --restore)

@@ -12,11 +12,11 @@ init(){
 
     # 创建备份文件的文件夹
     if [[ ! -d $BackupFolder ]]; then
-        mkdir -vp $BackupFolder
+        logger 'file' "$(mkdir -vp $BackupFolder || exit 1)"
     fi
     # 创建log文件夹
     if [[ ! -d $RunningLogPath ]]; then
-        mkdir -vp $RunningLogPath
+        logger 'file' "$(mkdir -vp $RunningLogPath || exit 1)"
     fi
 
     # 设置备份组的编号
@@ -29,8 +29,8 @@ init(){
 
     LogName=running.log
     # 写入日志的第一行日期
-    > $RunningLogPath/$LogName
-    logger "$(date +%s_%Y-%m-%d_%T) $0 $@"
+    > $RunningLogPath/$LogName || exit 1
+    logger 'file' "$(date +%s_%Y-%m-%d_%T) $0 $@"
 }
 
 # 分隔线函数
@@ -48,6 +48,21 @@ println_array_items(){
 
 # 写日志咯
 logger(){
-    echo $@
-    echo "$(date +%T) $@" >> $RunningLogPath/$LogName
+    case $1 in
+    both)
+        echo $2
+        echo "[$(date +%T)] $2" >> $RunningLogPath/$LogName
+    ;;
+    term)
+        echo $2
+    ;;
+    file)
+        echo "[$(date +%T)] $2" >> $RunningLogPath/$LogName
+    ;;
+    *)
+        # 保留缺省情况
+        echo $@
+        echo "[$(date +%T)] $@" >> $RunningLogPath/$LogName
+    ;;
+    esac
 }
