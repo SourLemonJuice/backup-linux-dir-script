@@ -55,6 +55,7 @@ backup(){
         read -n 1 -p "[输入任何内容退出]" -a Final_Tip
         if [[ ! -z $Final_Tip ]];then
             logger 'both' "用户已取消操作"
+            echo "当前时间 $(date +%x %T)"
             rm -ri $BackupFolder/$Now_Backup
             logger 'both' "删除未使用的文件夹 $BackupFolder/$Now_Backup"
             exit
