@@ -1,5 +1,15 @@
-BackupFolder=/usr/sys-backup
-RootPath=/
-LogPath=/usr/backup/.log
-LogName=backup.log
-NeedRoot=1
+# 0 == false
+# 1 == true
+
+# normal
+NeedRoot=0
+Disable_init_Path_Detection=0
+Tar_Default_Full_Backup=0
+Default_Zip_Mode=
+
+# path
+BackupFolder=../temp/backup
+RootPath=../temp/test
+
+# log
+RunningLogPath=../temp/backup/.log
