@@ -22,7 +22,7 @@ source $ShellFilePath/restore.sh
 }
 
 # 获取参数
-Options=$(getopt -o hBRz -l help,backup,restore,backup-full -- "$@")
+Options=$(getopt -o hBRzf -l help,backup,restore,backup-full -- "$@")
 if [ ! $? -eq 0 ]
 then
     echo "参数格式错误"
@@ -41,10 +41,8 @@ do
             # 第一个判断检测当前是否有已经存在的备份组，第二个判断读取配置文件来决定是否强制完全备份
             if [[ -f $BackupFolder/$Now_Backup/.snapshot ]] && [[ $Tar_Default_Full_Backup -eq 0 ]]
             then
-                logger "tar增量模式备份"
                 backup 'add' $2
             else
-                logger "tar完全模式备份"
                 backup 'full' $2
             fi
             break
@@ -58,7 +56,7 @@ do
         -R | --restore)
             init $@
             # 调用备份函数
-            restore
+            restore $2
             break
         ;;
         -h | --help)

@@ -5,6 +5,7 @@ backup(){
     full)
         # 等待用户最终确认
         read -p "tar完整备份模式 [按回车确认]"
+        logger 'file' "开始tar增量模式备份"
 
         # 刷新文件所在的组的编号文件
         Now_Backup=$(date +%s_%Y-%m-%d_%H-%M-%S)
@@ -20,6 +21,7 @@ backup(){
     add)
         # 等待用户最终确认
         read -p "tar增量备份模式 [按回车确认]"
+        logger 'file' "开始tar增量模式备份"
     ;;
     *)
         echo "backup函数 无效参数" && exit 1
@@ -59,7 +61,7 @@ backup(){
     echo tar压缩参数: $ZipMode
     separator
     {
-        read -n 1 -p "[输入任何内容退出]" -a Final_Tip
+        read -n 1 -p "[回车继续 其他输入则终止]" Final_Tip
         if [[ ! -z $Final_Tip ]];then
             logger 'both' "用户已取消操作"
             echo "当前时间 $(date +%x-%T)"
