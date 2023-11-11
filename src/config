@@ -8,8 +8,8 @@ Tar_Default_Full_Backup=0
 Default_Zip_Mode=
 
 # path
-BackupFolder=../temp/backup
-RootPath=../temp/test
+BackupFolder=../devtest/backup
+RootPath=../devtest/test
 
 # log
-RunningLogPath=../temp/backup/.log
+RunningLogPath=../devtest/backup/.log
