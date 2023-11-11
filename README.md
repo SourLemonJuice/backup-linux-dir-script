@@ -58,7 +58,7 @@
 
 ```shell
 # normal
-NeedRoot=0
+NeedRoot=1
 ```
 
 ### 备份路径
@@ -70,8 +70,8 @@ NeedRoot=0
 
 ```shell
 # path
-BackupFolder=../devtest/backup
-RootPath=../devtest/test
+BackupFolder=/usr/sys_backup
+RootPath=/
 ```
 
 ### tar增量备份
@@ -81,7 +81,7 @@ RootPath=../devtest/test
 
 ```shell
 # normal
-Tar_Default_Full_Backup=0
+Tar_Default_Full_Backup=1
 ```
 
 ### 日志目录
@@ -90,7 +90,7 @@ Tar_Default_Full_Backup=0
 
 ```shell
 # log
-RunningLogPath=../devtest/backup/.log
+RunningLogPath=/usr/sys_backup/.log
 ```
 
 ## 怪问题们
