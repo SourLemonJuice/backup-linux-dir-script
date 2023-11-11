@@ -22,7 +22,7 @@ source $ShellFilePath/restore.sh
 }
 
 # 获取参数
-Options=$(getopt -o hBRzf -l help,backup,restore,backup-full -- "$@")
+Options=$(getopt -o vhBRzf -l version,help,backup,restore,backup-full -- "$@")
 if [ ! $? -eq 0 ]
 then
     echo "参数格式错误"
@@ -61,6 +61,10 @@ do
         ;;
         -h | --help)
             cat $ShellFilePath/help_info
+            exit
+        ;;
+        -v | --version)
+            cat $ShellFilePath/version
             exit
         ;;
         --)
