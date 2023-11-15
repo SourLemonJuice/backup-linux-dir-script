@@ -57,7 +57,7 @@
 可以在执行脚本前检查是否为root权限\
 
 ```shell
-# ordinary
+# general
 NeedRoot=1
 ```
 
@@ -80,7 +80,7 @@ RootPath=/
 开启=不使用tar增量备份模式（-g 参数）
 
 ```shell
-# ordinary
+# general
 Tar_Default_Full_Backup=1
 ```
 
