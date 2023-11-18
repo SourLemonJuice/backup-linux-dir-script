@@ -57,7 +57,7 @@
 可以在执行脚本前检查是否为root权限\
 
 ```shell
-# ordinary
+# general
 NeedRoot=1
 ```
 
@@ -80,13 +80,14 @@ RootPath=/
 开启=不使用tar增量备份模式（-g 参数）
 
 ```shell
-# ordinary
+# general
 Tar_Default_Full_Backup=1
 ```
 
 ### 日志目录
 
 设置日志存放的目录（目前没什么有用的信息啦）
+>不要在最后加 / 我也不知道为什么
 
 ```shell
 # log
