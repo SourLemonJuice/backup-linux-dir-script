@@ -5,7 +5,7 @@ ShellFilePath=$( cd $(dirname $0) || exit 1 && pwd)
 
 # 读取配置文件
 source $ShellFilePath/config
-[ -f $ShellFilePath/config.d/* ] && source $ShellFilePath/config.d/*
+[ -f $ShellFilePath/config.d/*[1] ] && source $ShellFilePath/config.d/*
 # 读取初始化函数
 source $ShellFilePath/init.sh
 # 读取备份逻辑函数
