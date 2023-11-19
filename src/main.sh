@@ -5,14 +5,7 @@ ShellFilePath=$( cd $(dirname $0) || exit 1 && pwd)
 
 # 读取配置文件
 source $ShellFilePath/config
-[ -f $ShellFilePath/config.d/*[1] ] && source $ShellFilePath/config.d/*
-# 读取初始化函数
-source $ShellFilePath/init.sh
-# 读取备份逻辑函数
-source $ShellFilePath/backup.sh
-# 读取恢复函数
-source $ShellFilePath/restore.sh
-
+source $ShellFilePath/config.d/* && echo 加载 $ShellFilePath/config.d/*
 # 相对路径改绝对路径
 {
     cd $ShellFilePath || exit 1
@@ -20,14 +13,26 @@ source $ShellFilePath/restore.sh
     RootPath=$(realpath -m $RootPath)
     RunningLogPath=$(realpath -m $RunningLogPath)
 }
+# 日志函数
+source $ShellFilePath/logger.sh && logger file "已加载日志函数"
+logger init
+
+# 加载一些小东西
+# 输出数组内容
+source $ShellFilePath/println_array_items.sh && logger file "已加载读出数组函数"
+# 打印分割线
+source $ShellFilePath/separator.sh && logger file "已加载分割线函数"
+# 读取初始化函数
+source $ShellFilePath/init.sh && logger file "已加载初始化函数"
+# 读取备份逻辑函数
+source $ShellFilePath/backup.sh && logger file "已加载备份逻辑函数"
+# 读取恢复函数
+source $ShellFilePath/restore.sh && logger file "已加载恢复逻辑函数"
 
 # 获取参数
 Options=$(getopt -o vhBRzf -l version,help,backup,restore,backup-full -- "$@")
-if [ ! $? -eq 0 ]
-then
-    echo "参数格式错误"
-    exit 1
-fi
+# 获取失败则退出
+[ ! $? -eq 0 ] && logger both "参数格式错误" "参数格式错误 $@" && exit 1
 # 格式化getopt的输出
 eval set -- "$Options"
 
