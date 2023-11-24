@@ -15,8 +15,8 @@ backup(){
         logger 'file' "$(mkdir -v $BackupFolder/$Now_Backup || exit 1)"
 
         # 写入当前版本脚本的重要信息用来向后兼容
-        echo script version:$(cat "$ShellFilePath/version") > $BackupFolder/$Now_Backup/.template
-        echo file name template:'$(date +%s_%Y-%m-%d_%H-%M-%S)_backup.tar${ZipExtensionName}' >> $BackupFolder/$Now_Backup/.template
+        # echo script version:$(cat "$ShellFilePath/version") > $BackupFolder/$Now_Backup/.template
+        # echo file name template:'$(date +%s_%Y-%m-%d_%H-%M-%S)_backup.tar${ZipExtensionName}' >> $BackupFolder/$Now_Backup/.template
     ;;
     add)
         # 等待用户最终确认
@@ -24,7 +24,7 @@ backup(){
         logger 'file' "开始tar增量模式备份"
     ;;
     *)
-        echo "backup函数 无效参数" && exit 1
+        logger 'both' "backup函数 无效参数: $1" && exit 1
     ;;
     esac
 
@@ -75,7 +75,7 @@ backup(){
     # 懒得找别的办法了（-:
     cd $RootPath || exit 1
     logger 'file' "开始打包 $RootPath 到 $BackupFolder/$Now_Backup"
-    tar -g $BackupFolder/$Now_Backup/.snapshot\
+    tar -g $BackupFolder/$Now_Backup/.tar_snapshot\
     -"${ZipMode}"cvf $BackupFolder/$Now_Backup/$(date +%s_%Y-%m-%d_%H-%M-%S)_backup.tar${ZipExtensionName}\
     --overwrite\
     --one-file-system\
