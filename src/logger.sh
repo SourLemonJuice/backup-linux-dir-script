@@ -28,7 +28,7 @@ logger(){
         # 清空日志
         > $RunningLogPath/$LogName || exit 1
         # 写入日志
-        logger 'file' "$(date +%s_%Y-%m-%d_%T) $0 $@"
+        logger 'file' "$(date +%s_%Y-%m-%d_%T) $0"
     ;;
     *)
         # 保留缺省情况

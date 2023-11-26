@@ -1,5 +1,4 @@
-# 0 == false
-# 1 == true
+# "0 == false" "1 == true"
 
 # general
 NeedRoot=0
@@ -11,4 +10,4 @@ BackupFolder=../devtest/backup
 RootPath=../devtest/test
 
 # log
-RunningLogPath=./.log
+RunningLogPath=./log

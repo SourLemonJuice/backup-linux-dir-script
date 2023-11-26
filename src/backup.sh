@@ -4,7 +4,7 @@ backup(){
     case $1 in 
     full)
         # 等待用户最终确认
-        read -p "tar完整备份模式 [按回车确认]"
+        read -p "准备tar完整备份模式 [按回车确认]"
         logger 'file' "开始tar增量模式备份"
 
         # 刷新文件所在的组的编号文件
@@ -20,7 +20,7 @@ backup(){
     ;;
     add)
         # 等待用户最终确认
-        read -p "tar增量备份模式 [按回车确认]"
+        read -p "准备tar增量备份模式 [按回车确认]"
         logger 'file' "开始tar增量模式备份"
     ;;
     *)
@@ -64,10 +64,10 @@ backup(){
         read -n 1 -p "[回车继续 其他输入则终止]" Final_Tip
         if [[ ! -z $Final_Tip ]];then
             logger 'both' "用户已取消操作"
-            echo "当前时间 $(date +%x-%T)"
-            rm -ri $BackupFolder/$Now_Backup
-            logger 'both' "删除未使用的文件夹 $BackupFolder/$Now_Backup"
-            exit
+            logger 'both' "当前时间: $(date +%x-%T) 刚才的目标: $Now_Backup 请及时退出rm"
+            rm -ri $BackupFolder/$Now_Backup && logger 'both' "成功删除未使用的文件夹 $BackupFolder/$Now_Backup"
+            # 如果rm失败就会把错误码传递出去
+            exit $?
         fi
     }
 
