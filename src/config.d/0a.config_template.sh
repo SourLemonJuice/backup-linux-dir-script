@@ -1,13 +1,13 @@
 # "0 == false" "1 == true"
 
 # general
-NeedRoot=0
-Tar_Default_Full_Backup=0
-Default_Zip_Mode=
+NeedRoot=1
+Tar_Default_Full_Backup=1
+Default_Zip_Mode=-z
 
 # path
-BackupFolder=../devtest/backup
-RootPath=../devtest/test
+BackupFolder=/usr/sys-backup
+RootPath=/
 
 # log
 RunningLogPath=./log
