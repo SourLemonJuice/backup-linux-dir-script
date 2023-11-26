@@ -84,10 +84,11 @@ backup(){
 
     # 写入当前备份的组，如果是增量内容将不变，如果是完全备份将写入新的编号，都是为了最终确认呀啊啊啊
     echo -n $Now_Backup > $Now_Backup_FilePath
-    logger 'file' "更新储存库中的.now_backup文件为 $Now_Backup"
+    logger 'file' "写入储存库中的.now_backup文件为-> $Now_Backup"
 
     # 写入进打包历史
     echo $(date +%s_%Y-%m-%d_%H-%M-%S)_backup.tar${ZipExtensionName} >> $BackupFolder/$Now_Backup/.log
     # logggggg
-    logger 'both' "$(date +%s_%Y-%m-%d_%H-%M-%S)_${FileAppendName}backup.tar${ZipExtensionName} 打包结束"
+    # 这里读取最后一行.log作为输出，可能并不准确，但不会出现对不上的情况
+    logger 'both' "$(tail -n 1 $BackupFolder/$Now_Backup/.log) 打包结束" "打包结束 .log的最后一项为 $(tail -n 1 $BackupFolder/$Now_Backup/.log)"
 }
