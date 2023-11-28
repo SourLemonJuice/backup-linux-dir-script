@@ -10,4 +10,5 @@ BackupFolder=/usr/sys-backup
 RootPath=/
 
 # log
-RunningLogPath=./log
+LogPath=./log
+LogName=running.log

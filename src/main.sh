@@ -20,7 +20,7 @@ fi
     cd $ShellFilePath || exit 1
     BackupFolder=$(realpath -m $BackupFolder)
     RootPath=$(realpath -m $RootPath)
-    RunningLogPath=$(realpath -m $RunningLogPath)
+    LogPath=$(realpath -m $LogPath)
 }
 # 日志函数
 source $ShellFilePath/lib/logger.sh && logger file "已加载日志函数"
