@@ -107,7 +107,7 @@ Tar_Default_Full_Backup=1
 
 ```shell
 # log
-RunningLogPath=./log
+LogPath=./log
 ```
 
 ## 怪问题们

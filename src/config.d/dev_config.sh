@@ -8,4 +8,5 @@ BackupFolder=../devtest/backup
 RootPath=../devtest/test
 
 # log
-RunningLogPath=./log
+LogPath=./log
+LogName=running.log
