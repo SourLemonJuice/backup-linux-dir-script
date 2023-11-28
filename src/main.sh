@@ -23,15 +23,15 @@ fi
     RunningLogPath=$(realpath -m $RunningLogPath)
 }
 # 日志函数
-source $ShellFilePath/logger.sh && logger file "已加载日志函数"
+source $ShellFilePath/lib/logger.sh && logger file "已加载日志函数"
 # 初始化日志文件
 logger 'init'
 
 # 加载一些小东西
 # 输出数组内容
-source $ShellFilePath/println_array_items.sh && logger file "已加载读出数组函数"
+source $ShellFilePath/lib/println_array_items.sh && logger file "已加载读出数组函数"
 # 打印分割线
-source $ShellFilePath/separator.sh && logger file "已加载分割线函数"
+source $ShellFilePath/lib/separator.sh && logger file "已加载分割线函数"
 # 读取初始化函数
 source $ShellFilePath/init.sh && logger file "已加载初始化函数"
 # 读取备份逻辑函数
