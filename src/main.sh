@@ -25,7 +25,7 @@ fi
 # 日志函数
 source $ShellFilePath/logger.sh && logger file "已加载日志函数"
 # 初始化日志文件
-logger init
+logger 'init'
 
 # 加载一些小东西
 # 输出数组内容
@@ -97,4 +97,3 @@ do
     esac
     shift
 done
-
