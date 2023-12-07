@@ -61,18 +61,26 @@ backup(){
     logger 'both' "tar压缩参数: $ZipMode"
     separator
     logger 'file' "----报告结束----"
-    # 如果退出就删除刚创建的文件夹
-    # TODO 这里的rm仍然有 -i 去寻求用户的意见，防止出现什么问题，可以在前面添加判断要删除的路径是否为空，这样对前面的逻辑也好更不容易出错
-    {
-        read -n 1 -p "[回车继续 其他输入则终止]" Final_Tip
-        if [[ ! -z $Final_Tip ]];then
-            logger 'both' "用户已取消操作"
-            logger 'both' "当前时间: $(date +%x-%T) 刚才的目标: $Now_Backup 请及时退出rm"
-            rm -ri $BackupFolder/$Now_Backup && logger 'both' "成功删除未使用的文件夹 $BackupFolder/$Now_Backup"
-            # 如果rm失败就会把错误码传递出去
+
+    # 让用户决定是否继续
+    read -s -n 1 -p "[按回车立即开始 其他输入则终止]" Final_Tip
+    # 如果确定退出就删除刚创建的文件夹
+    if [[ ! -z $Final_Tip ]];then
+        # 只有完整备份才需要删除，增量模式在这之前不会改动文件
+        if [ $1 == "full" ];then
+            logger 'both' "用户已取消操作 (完整备份模式)"
+            logger 'file' "当前时间: $(date +%x-%T) 准备删除的目标: $Now_Backup"
+            # !!! rm 的路径在init函数中均有检测，如果要动请一定要确定不会出现空的函数
+            # 或者像现在一样尽量使用仅删除文件夹模式
+            rm -d $BackupFolder/$Now_Backup && logger 'both' "成功删除未使用的空文件夹 $BackupFolder/$Now_Backup"
+            # 把rm的错误码传递出去
+            # 正常如果rm没问题会执行日志记录，但如果有问题会停在rm，后面的logger不会覆盖掉rm的"错误码"
             exit $?
         fi
-    }
+        # 其他模式退出可以直接exit
+        logger 'both' "用户已取消操作"
+        exit 0
+    fi
 
     # 这里cd到要工作的目录是因为不这么做生成的tar会先有一个工作目录名称的文件夹再是工作目录里的内容
     # 懒得找别的办法了（-:
