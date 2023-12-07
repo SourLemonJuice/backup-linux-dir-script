@@ -1,4 +1,3 @@
-
 restore(){
 
     # 列出所有可用的备份组，并写入 BackupFolderList

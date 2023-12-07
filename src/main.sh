@@ -1,4 +1,6 @@
 #!/bin/bash
+# 欢迎光临(=・ω・=)
+# 别说什么颜文字可能不兼容，这里可全是utf8的中文
 
 # 获取脚本真实路径
 ShellFilePath=$( cd $(dirname $0) || exit 1 && pwd)
@@ -50,7 +52,7 @@ logger 'file' "整理输入参数成功，整理后用户输入的参数列表�
 eval set -- "$Options" || exit 1
 
 # 这个循环只应该检测到一次可以执行的项，在每个项后面都应该写上 break 或 exit
-logger 'file' "进入第一个环境的循环"
+logger 'file' "进入 简单逻辑 参数检测循环"
 while true;
 do
     case $1 in
@@ -77,7 +79,7 @@ do
     esac
 done
 
-logger 'file' "进入第二个环境的循环"
+logger 'file' "进入 需要改动文件 的参数检测循环"
 
 # 初始化需要备份的仓库位置
 init $@ && logger 'file' "init函数执行"
@@ -116,3 +118,5 @@ do
     esac
     shift
 done
+
+logger 'file' "脚本执行完毕"

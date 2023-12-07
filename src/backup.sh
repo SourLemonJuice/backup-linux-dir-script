@@ -1,4 +1,3 @@
-
 backup(){
 
     case $1 in 
@@ -53,13 +52,17 @@ backup(){
     excludes="--exclude=./lost+found --exclude=.$BackupFolder"
 
     # 等待用户最终确认
+    logger 'file' "----备份详细信息报告----"
     separator
-    echo 源: $RootPath
-    echo 目标文件夹: $BackupFolder/$Now_Backup
-    echo 排除参数: $excludes
-    echo 接收到的备份模式: $1
-    echo tar压缩参数: $ZipMode
+    logger 'both' "源: $RootPath"
+    logger 'both' "目标文件夹: $BackupFolder/$Now_Backup"
+    logger 'both' "排除参数: $excludes"
+    logger 'both' "接收到的备份模式: $1"
+    logger 'both' "tar压缩参数: $ZipMode"
     separator
+    logger 'file' "----报告结束----"
+    # 如果退出就删除刚创建的文件夹
+    # TODO 这里的rm仍然有 -i 去寻求用户的意见，防止出现什么问题，可以在前面添加判断要删除的路径是否为空，这样对前面的逻辑也好更不容易出错
     {
         read -n 1 -p "[回车继续 其他输入则终止]" Final_Tip
         if [[ ! -z $Final_Tip ]];then
@@ -73,22 +76,24 @@ backup(){
 
     # 这里cd到要工作的目录是因为不这么做生成的tar会先有一个工作目录名称的文件夹再是工作目录里的内容
     # 懒得找别的办法了（-:
+    (
     cd $RootPath || exit 1
-    logger 'file' "开始打包 $RootPath 到 $BackupFolder/$Now_Backup"
+    logger 'file' "----开始打包"
     tar -g $BackupFolder/$Now_Backup/.tar_snapshot\
     -"${ZipMode}"cvf $BackupFolder/$Now_Backup/$(date +%s_%Y-%m-%d_%H-%M-%S)_backup.tar${ZipExtensionName}\
     --overwrite\
     --one-file-system\
     ${excludes}\
-    .
+    .\
+    2>&1
+    ) | logger 'stdin'
 
     # 写入当前备份的组，如果是增量内容将不变，如果是完全备份将写入新的编号，都是为了最终确认呀啊啊啊
     echo -n $Now_Backup > $Now_Backup_FilePath
-    logger 'file' "写入储存库中的.now_backup文件为-> $Now_Backup"
+    logger 'file' "写入储存库中的.now_backup文件为 > $Now_Backup"
 
     # 写入进打包历史
     echo $(date +%s_%Y-%m-%d_%H-%M-%S)_backup.tar${ZipExtensionName} >> $BackupFolder/$Now_Backup/.log
-    # logggggg
     # 这里读取最后一行.log作为输出，可能并不准确，但不会出现对不上的情况
     logger 'both' "$(tail -n 1 $BackupFolder/$Now_Backup/.log) 打包结束" "打包结束 .log的最后一项为 $(tail -n 1 $BackupFolder/$Now_Backup/.log)"
 }
