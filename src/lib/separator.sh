@@ -1,6 +1,5 @@
-
 # 分隔线函数
-separator(){
+llib_separator(){
     if [[ -z $1 ]] || [[ ! ${#1} -eq 1 ]]; then
         Character='='
     else

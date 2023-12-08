@@ -1,5 +1,5 @@
 # 写日志咯
-logger(){
+llib_logger(){
     LogPath=$LogPath
     LogName=$LogName
 
@@ -27,12 +27,12 @@ logger(){
     init)
         # 检测并创建log文件夹
         if [[ ! -d $LogPath ]]; then
-                logger 'file' "$(mkdir -vp $LogPath || exit 1)"
+                llib_logger 'file' "$(mkdir -vp $LogPath || exit 1)"
         fi
         # 清空日志
         > $LogPath/$LogName || exit 1
         # 写入日志
-        logger 'file' "$(date +%s_%Y-%m-%d_%T) $0"
+        llib_logger 'file' "$(date +%s_%Y-%m-%d_%T) $0"
     ;;
     *)
         # 保留缺省情况
