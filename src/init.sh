@@ -10,7 +10,7 @@ init(){
 
     # 创建备份文件的文件夹
     if [[ ! -d $BackupFolder ]]; then
-        logger 'file' "$(mkdir -vp $BackupFolder || exit 1)"
+        llib_logger 'file' "$(mkdir -vp $BackupFolder || exit 1)"
     fi
 
     # 设置备份组的编号
