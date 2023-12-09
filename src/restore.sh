@@ -1,13 +1,12 @@
-
 restore(){
 
     # 列出所有可用的备份组，并写入 BackupFolderList
     for i in $(ls -1 ${BackupFolder}); do
         BackupFolderList[${#BackupFolderList[@]}]=$i
     done
-    separator '='
-    println_array_items ${BackupFolderList[@]}
-    separator '='
+    llib_separator '='
+    llib_println_array_items ${BackupFolderList[@]}
+    llib_separator '='
 
     # 要恢复哪个备份组
     read -p "选择要从哪个备份组恢复:" -a RestoreFolderName
@@ -25,20 +24,20 @@ restore(){
 
     # 将文件夹内的文件写入数组 RestoreFolderFileList
     if [[ $1 == "-f" ]] && [[ -f $RestoreFolder/.log ]] ; then
-        logger 'both' "使用文件夹内log文件作为索引"
+        llib_logger 'both' "使用文件夹内log文件作为索引"
         for i in $(cat $RestoreFolder/.log | grep backup.tar ); do
             RestoreFolderFileList[${#RestoreFolderFileList[@]}]=$i
         done
     else
-        logger 'both' "使用 ls -1 作为索引"
+        llib_logger 'both' "使用 ls -1 作为索引"
         for i in $(ls -1 $RestoreFolder | grep backup.tar ); do
             RestoreFolderFileList[${#RestoreFolderFileList[@]}]=$i
         done
     fi
 
     # 列出所有可用的备份
-    println_array_items ${RestoreFolderFileList[@]}
-    separator '-'
+    llib_println_array_items ${RestoreFolderFileList[@]}
+    llib_separator '-'
     # 要恢复到哪个时间点
     read -p "选择要恢复到哪个备份的状态:" -a RestoreFileEnd
     # 如果没有文件则报错
@@ -58,14 +57,14 @@ restore(){
     done
 
     # 输出即将释放的文件，并请求确认
-    println_array_items "${RestoreFileList[@]}"
-    separator '~'
+    llib_println_array_items "${RestoreFileList[@]}"
+    llib_separator '~'
     read -s -p "即将从上到下还原这些文件 [按回车确定]"
 
     # 循环释放每个输入的文件
     for i in "${RestoreFileList[@]}";
     do
-        logger 'file' "开始释放文件 $i"
+        llib_logger 'file' "开始释放文件 $i"
         # 释放文件
         # TODO 在命令中覆盖rootpath
         tar -xvf $RestoreFolder/$i -C $RootPath
